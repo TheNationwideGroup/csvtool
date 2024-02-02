@@ -16,12 +16,23 @@ import com.opencsv.exceptions.CsvException;
 public class App {
 
 	public static void main(String[] args) {
-
-		String filepath = "C://123//test//2024-01-02_86304.csv";
 		
-		Path path = Path.of(filepath);
+		File directory = new File("C://123//coupa");
+
+		File[] allFiles = directory.listFiles();
+		for (File file : allFiles)  {
+			//System.out.println(file.getPath());
+			//System.out.println(file.getName());
+			
+			convertOneFile(file.getPath(), file.getName());
+		}
+		
+	}
+
+	
+	public static void convertOneFile(String pathToFile, String outputName) {
 		List<String[]> currentFile = null;
-		try (Reader reader = Files.newBufferedReader(path)) {
+		try (Reader reader = Files.newBufferedReader(Path.of(pathToFile))) {
 	        try (CSVReader csvReader = new CSVReader(reader)) {
 	        	currentFile = csvReader.readAll();
 	        	for (String[] row : currentFile) {
@@ -45,7 +56,7 @@ public class App {
 		System.out.println("---");
 		
 		
-		String output = "C:\\Users\\EricChan\\output\\2024-01-02_86304.csv";
+		String output = "C:\\Users\\EricChan\\output\\"+outputName;
 		
 		try {
 			File file= new File(output);
@@ -58,7 +69,5 @@ public class App {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
-
 }
